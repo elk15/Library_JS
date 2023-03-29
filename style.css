@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
 :root {
     --grey: #f0eef1;
+    --dark-grey:#b4b2b6;
     --white: #fffbfb;
     --green: #9fff9c;
     --red: #ff9c9c;
@@ -42,17 +43,51 @@ header button {
     border-radius: 0.6rem;
     font-size: 1.2rem;
     background-color: var(--grey);
-    font-weight: bold;
+}
+
+button:hover{
+    background-color: var(--dark-grey);
+    cursor: pointer;
 }
 
 main {
     flex: 1;
     background-color: var(--grey);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 2rem;
+}
+
+.add-book{
+    border: none;
+    padding: 0.8rem;
+    background-color: #dddbdf;
+    border-radius: 0.6rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+
+}
+
+.cards{
+    border: 1px solid black;
+    flex: 1;
+    width: 100%;
+    padding: 1.5rem;
+}
+
+.card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background-color: var(--white);
 }
 
 footer {
     display: flex;
     justify-content: center;
     padding: 1rem;
-    background-color: var(--white);
+    background-color: var(--grey);
 }
