@@ -9,6 +9,17 @@
     
 </head>
 <body>
+    <section class="modal hidden">
+        <form class="modal-form">
+            <h2>Add new book</h1>
+            <input type="text" name="title" id="title" placeholder="Title" minlength="2" required>
+            <input type="text" name="author" id="author" placeholder="Author" minlength="2" required>
+            <input type="number" name="pages" id="pages" placeholder="Pages" min="1" required>
+            <div class="checkbox"><label for="isRead">Have you read it? </label><input type="checkbox" name="isRead" id="isRead"></div>
+            <input class="modal-btn" type="button" value="Submit">
+        </form>
+    </section>
+    <div class="overlay hidden"></div>
     <div class="container">
         <header><h1>library</h1> <button>Log in</button></header>
         <main>
