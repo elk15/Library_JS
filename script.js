@@ -3,6 +3,7 @@ const addBookBtn = document.querySelector('.add-book');
 const cardsDiv = document.querySelector('.cards');
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
+let bookId = 0;
 
 // get form elements
 const titleInput = document.querySelector('#title');
@@ -11,14 +12,15 @@ const pagesInput = document.querySelector('#pages');
 const isReadInput = document.querySelector('#is-read');
 const modalForm = document.querySelector('.modal-form');
 
-function Book(title, author, pages, isRead) {
+function Book(title, author, pages, isRead, bookId) {
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.isRead = isRead;
+    this.bookId = bookId;
 }
 
-function createCard(book) {
+function createCard(book, bookId) {
     const newDiv = document.createElement('div');
     const titleP = document.createElement('p');
     const authorP = document.createElement('p');
@@ -41,14 +43,27 @@ function createCard(book) {
     newDiv.classList.add('card');
     removeBtn.classList.add('remove-btn');
 
+    removeBtn.setAttribute('data-id', bookId);
+
+    removeBtn.addEventListener('click', (e) => {
+        const { id } = e.target.dataset;
+        cardsDiv.removeChild(newDiv);
+        for (let i = 0; i < myLibrary.length; i++) {
+            if (myLibrary[i].bookId == id) {
+                myLibrary.splice(i, 1);
+            }
+        }
+    });
+
     cardsDiv.appendChild(newDiv);
 }
 
 // add create card function here
 function addBookToLibrary(title, author, pages, isRead) {
-    const book = new Book(title, author, pages, isRead);
+    const book = new Book(title, author, pages, isRead, bookId);
     myLibrary.push(book);
-    createCard(book);
+    createCard(book, bookId);
+    bookId += 1;
 }
 
 function closeModal() {
