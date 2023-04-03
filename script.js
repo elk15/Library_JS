@@ -20,6 +20,10 @@ function Book(title, author, pages, isRead, bookId) {
     this.bookId = bookId;
 }
 
+Book.prototype.switchIsRead = function () {
+    this.isRead = !this.isRead;
+};
+
 function createCard(book, bookId) {
     const newDiv = document.createElement('div');
     const titleP = document.createElement('p');
@@ -31,7 +35,7 @@ function createCard(book, bookId) {
     titleP.textContent = book.title;
     authorP.textContent = book.author;
     pagesP.textContent = book.pages;
-    isReadBtn.textContent = book.isRead;
+    isReadBtn.textContent = book.isRead ? 'Read' : 'Not Read';
     removeBtn.textContent = 'Remove';
 
     newDiv.appendChild(titleP);
@@ -42,6 +46,7 @@ function createCard(book, bookId) {
 
     newDiv.classList.add('card');
     removeBtn.classList.add('remove-btn');
+    isReadBtn.classList.add(book.isRead ? 'green-btn' : 'red-btn');
 
     removeBtn.setAttribute('data-id', bookId);
 
@@ -53,6 +58,14 @@ function createCard(book, bookId) {
                 myLibrary.splice(i, 1);
             }
         }
+    });
+
+    isReadBtn.addEventListener('click', () => {
+        book.switchIsRead();
+        isReadBtn.textContent = book.isRead ? 'Read' : 'Not Read';
+        isReadBtn.classList.add(book.isRead ? 'green-btn' : 'red-btn');
+        isReadBtn.classList.remove(book.isRead ? 'red-btn' : 'green-btn');
+        console.log(myLibrary);
     });
 
     cardsDiv.appendChild(newDiv);
