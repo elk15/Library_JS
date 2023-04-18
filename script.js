@@ -1,4 +1,3 @@
-const myLibrary = [];
 const addBookBtn = document.querySelector('.add-book');
 const cardsDiv = document.querySelector('.cards');
 const modal = document.querySelector('.modal');
@@ -12,19 +11,39 @@ const pagesInput = document.querySelector('#pages');
 const isReadInput = document.querySelector('#is-read');
 const modalForm = document.querySelector('.modal-form');
 
-function Book(title, author, pages, isRead, bookId) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.isRead = isRead;
-    this.bookId = bookId;
+class Book {
+    constructor(title, author, pages, isRead) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.isRead = isRead;
+        this.bookId = bookId++;
+    }
+
+    switchIsRead() {
+        this.isRead = !this.isRead;
+    }
 }
 
-Book.prototype.switchIsRead = function () {
-    this.isRead = !this.isRead;
-};
+class Library {
+    constructor() {
+        this.books = [];
+    }
 
-function createCard(book, bookId) {
+    addBook(title, author, pages, isRead) {
+        const book = new Book(title, author, pages, isRead);
+        this.books.push(book);
+        return book;
+    }
+
+    removeBook(id) {
+        this.books = this.books.filter((book) => book.bookId !== id);
+    }
+}
+
+const myLibrary = new Library();
+
+function createCard(book) {
     const newDiv = document.createElement('div');
     const titleP = document.createElement('p');
     const authorP = document.createElement('p');
@@ -48,16 +67,12 @@ function createCard(book, bookId) {
     removeBtn.classList.add('remove-btn');
     isReadBtn.classList.add(book.isRead ? 'green-btn' : 'red-btn');
 
-    removeBtn.setAttribute('data-id', bookId);
+    removeBtn.setAttribute('data-id', book.bookId);
 
     removeBtn.addEventListener('click', (e) => {
         const { id } = e.target.dataset;
         cardsDiv.removeChild(newDiv);
-        for (let i = 0; i < myLibrary.length; i++) {
-            if (myLibrary[i].bookId == id) {
-                myLibrary.splice(i, 1);
-            }
-        }
+        myLibrary.removeBook(id);
     });
 
     isReadBtn.addEventListener('click', () => {
@@ -65,18 +80,9 @@ function createCard(book, bookId) {
         isReadBtn.textContent = book.isRead ? 'Read' : 'Not Read';
         isReadBtn.classList.add(book.isRead ? 'green-btn' : 'red-btn');
         isReadBtn.classList.remove(book.isRead ? 'red-btn' : 'green-btn');
-        console.log(myLibrary);
     });
 
     cardsDiv.appendChild(newDiv);
-}
-
-// add create card function here
-function addBookToLibrary(title, author, pages, isRead) {
-    const book = new Book(title, author, pages, isRead, bookId);
-    myLibrary.push(book);
-    createCard(book, bookId);
-    bookId += 1;
 }
 
 function closeModal() {
@@ -102,7 +108,8 @@ modalForm.addEventListener('submit', (event) => {
     const author = authorInput.value;
     const pages = pagesInput.value;
     const isRead = isReadInput.checked;
-    addBookToLibrary(title, author, pages, isRead);
+    const newBook = myLibrary.addBook(title, author, pages, isRead);
+    createCard(newBook);
     closeModal();
     titleInput.value = '';
     authorInput.value = '';
@@ -110,5 +117,8 @@ modalForm.addEventListener('submit', (event) => {
     isRead.checked = false;
 });
 
-addBookToLibrary('"Pride and Prejustice"', 'Jane Austen', 430, false);
-addBookToLibrary('"The Hobbit"', 'J.R.R. Tolkien', 366, true);
+const newBook1 = myLibrary.addBook('"Pride and Prejustice"', 'Jane Austen', 430, false);
+createCard(newBook1);
+
+const newBook2 = myLibrary.addBook('"The Hobbit"', 'J.R.R. Tolkien', 366, true);
+createCard(newBook2);
