@@ -12,17 +12,19 @@ const pagesInput = document.querySelector('#pages');
 const isReadInput = document.querySelector('#is-read');
 const modalForm = document.querySelector('.modal-form');
 
-function Book(title, author, pages, isRead, bookId) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.isRead = isRead;
-    this.bookId = bookId;
-}
+class Book {
+    constructor(title, author, pages, isRead) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.isRead = isRead;
+        this.bookId = bookId++;
+    }
 
-Book.prototype.switchIsRead = function () {
-    this.isRead = !this.isRead;
-};
+    switchIsRead() {
+        this.isRead = !this.isRead;
+    }
+}
 
 function createCard(book, bookId) {
     const newDiv = document.createElement('div');
@@ -71,7 +73,6 @@ function createCard(book, bookId) {
     cardsDiv.appendChild(newDiv);
 }
 
-// add create card function here
 function addBookToLibrary(title, author, pages, isRead) {
     const book = new Book(title, author, pages, isRead, bookId);
     myLibrary.push(book);
