@@ -10,11 +10,11 @@
 </head>
 <body>
     <section class="modal hidden">
-        <form class="modal-form" autocomplete="off">
+        <form class="modal-form" autocomplete="off" novalidate>
             <h2>Add new book</h1>
-            <input type="text" name="title" id="title" placeholder="Title" minlength="2" required=""/>
-            <input type="text" name="author" id="author" placeholder="Author" minlength="2" required=""/>
-            <input type="number" name="pages" id="pages" placeholder="Pages" min="1" required=""/>
+            <input type="text" name="title" id="title" placeholder="Title" minlength="2" required/>
+            <input type="text" name="author" id="author" placeholder="Author" minlength="2" required/>
+            <input type="number" name="pages" id="pages" placeholder="Pages" min="1" required/>
             <div class="checkbox"><label for="is-read">Have you read it? </label><input type="checkbox" name="isRead" id="is-read"></div>
             <input class="modal-btn" type="submit" value="Submit">
         </form>

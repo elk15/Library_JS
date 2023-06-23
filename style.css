@@ -198,3 +198,11 @@ footer {
 .hidden {
     display: none;
 }
+
+input:focus:invalid {
+    outline: 2px solid red;
+}
+
+input:focus:valid {
+    outline: 2px solid green;
+}

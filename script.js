@@ -101,20 +101,59 @@ overlay.addEventListener('click', () => {
     closeModal();
 });
 
+// Form Validation
+
+function capitalize(text) {
+    return text.substring(0, 1).toUpperCase() + text.substring(1);
+}
+
+function checkValidity(input) {
+    if (input.validity.valueMissing) {
+        input.setCustomValidity(`${capitalize(input.id)} is required.`);
+    } else if (input.validity.tooShort) {
+        input.setCustomValidity(`${capitalize(input.id)} needs to be at least ${input.minLength} long.`);
+    } else if (input.validity.rangeUnderflow) {
+        input.setCustomValidity(`${capitalize(input.id)} needs to be greater than 0.`);
+    } else {
+        input.setCustomValidity('');
+    }
+    input.reportValidity();
+}
+
+titleInput.addEventListener('input', () => {
+    checkValidity(titleInput);
+});
+
+authorInput.addEventListener('input', () => {
+    checkValidity(authorInput);
+});
+
+pagesInput.addEventListener('input', () => {
+    checkValidity(pagesInput);
+});
+
 // submit data from form
 modalForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const title = titleInput.value;
-    const author = authorInput.value;
-    const pages = pagesInput.value;
-    const isRead = isReadInput.checked;
-    const newBook = myLibrary.addBook(title, author, pages, isRead);
-    createCard(newBook);
-    closeModal();
-    titleInput.value = '';
-    authorInput.value = '';
-    pagesInput.value = '';
-    isRead.checked = false;
+    if (!titleInput.validity.valid || !authorInput.validity.valid || !pagesInput.validity.valid) {
+        checkValidity(titleInput);
+        checkValidity(authorInput);
+        checkValidity(pagesInput);
+        event.preventDefault();
+    } else {
+        event.preventDefault();
+        const title = titleInput.value;
+        const author = authorInput.value;
+        const pages = pagesInput.value;
+        const isRead = isReadInput.checked;
+        const newBook = myLibrary.addBook(title, author, pages, isRead);
+        createCard(newBook);
+        closeModal();
+        titleInput.value = '';
+        authorInput.value = '';
+        pagesInput.value = '';
+        isRead.checked = false;
+        console.log(myLibrary.books);
+    }
 });
 
 const newBook1 = myLibrary.addBook('"Pride and Prejustice"', 'Jane Austen', 430, false);
